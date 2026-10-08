@@ -1,0 +1,42 @@
+name: Practical 7 - Docker Placement API
+
+on:
+  workflow_dispatch:
+
+jobs:
+  docker-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t student-placement-api ./Practical-7
+
+      - name: Start Docker container
+        run: docker run -d -p 5000:5000 --name student-placement-container student-placement-api
+
+      - name: Wait for API
+        run: |
+          for i in {1..10}; do
+            if curl -f http://localhost:5000/health; then
+              exit 0
+            fi
+            sleep 2
+          done
+          exit 1
+
+      - name: Test placement prediction
+        run: |
+          curl -f -X POST http://localhost:5000/predict \
+            -H "Content-Type: application/json" \
+            -d '{"cgpa":8.5,"internships":2,"projects":3,"aptitude_score":85}'
+
+      - name: Show container logs
+        if: always()
+        run: docker logs student-placement-container
+
+      - name: Cleanup container
+        if: always()
+        run: docker rm -f student-placement-container
