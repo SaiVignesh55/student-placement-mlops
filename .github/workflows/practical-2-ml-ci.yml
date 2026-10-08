@@ -7,6 +7,7 @@ on:
     paths:
       - 'Practical-2/**'
       - 'Practical-3/**'
+      - 'Practical-4/**'
       - '.github/workflows/practical-2-ml-ci.yml'
 
   pull_request:
@@ -51,3 +52,14 @@ jobs:
       - name: Run automated ML tests
         working-directory: Practical-2
         run: python -m unittest test_ml_pipeline.py -v
+        
+      - name: Upload validated ML artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: student-placement-ml-artifacts
+          path: |
+            Practical-2/student_placement_model.pkl
+            Practical-2/metrics.json
+            Practical-2/student_placement.csv
+          if-no-files-found: error
+          retention-days: 7
