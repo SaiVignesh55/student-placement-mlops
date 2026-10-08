@@ -56,6 +56,23 @@ jobs:
 
       - name: Run prediction application tests
         run: python -m unittest discover -s Practical-5 -p "test_app.py" -v
+
+      - name: Prepare placement release candidate
+        run: |
+          mkdir -p release_candidate
+          cp Practical-5/app.py release_candidate/
+          cp Practical-2/student_placement_model.pkl release_candidate/
+          cp Practical-2/metrics.json release_candidate/
+          cp Practical-2/requirements.txt release_candidate/
+          printf "Student Placement Prediction ML Application\nRun: python app.py\nEndpoint: POST /predict\n" > release_candidate/DEPLOYMENT.txt
+
+      - name: Upload placement release candidate
+        uses: actions/upload-artifact@v7
+        with:
+          name: student-placement-ml-release
+          path: release_candidate/
+          if-no-files-found: error
+          retention-days: 7
         
       - name: Upload validated ML artifacts
         uses: actions/upload-artifact@v7
