@@ -8,6 +8,7 @@ on:
       - 'Practical-2/**'
       - 'Practical-3/**'
       - 'Practical-4/**'
+      - 'Practical-5/**'
       - '.github/workflows/practical-2-ml-ci.yml'
 
   pull_request:
@@ -52,6 +53,9 @@ jobs:
       - name: Run automated ML tests
         working-directory: Practical-2
         run: python -m unittest test_ml_pipeline.py -v
+
+      - name: Run prediction application tests
+        run: python -m unittest discover -s Practical-5 -p "test_app.py" -v
         
       - name: Upload validated ML artifacts
         uses: actions/upload-artifact@v7
