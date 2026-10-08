@@ -5,7 +5,7 @@ MINIMUM_ACCURACY = 0.85
 
 print("Reading model evaluation metrics...")
 
-with open("../Practical-2/metrics.json", "r") as file:
+with open("Practical-2/metrics.json", "r") as file:
     metrics = json.load(file)
 
 accuracy = metrics["accuracy"]
