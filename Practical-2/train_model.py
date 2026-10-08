@@ -35,7 +35,7 @@ def create_dataset():
     )
 
     # Add small random noise so the model is not unrealistically perfect
-    noise = rng.normal(0, 5, number_of_students)
+    noise = rng.normal(0, 2, number_of_students)
     weighted_score = weighted_score + noise
 
     # 1 = PLACED, 0 = NOT PLACED
