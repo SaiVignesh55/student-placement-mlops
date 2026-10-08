@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'Practical-2/**'
+      - 'Practical-3/**'
       - '.github/workflows/practical-2-ml-ci.yml'
 
   pull_request:
@@ -13,6 +14,7 @@ on:
       - main
     paths:
       - 'Practical-2/**'
+      - 'Practical-3/**'
       - '.github/workflows/practical-2-ml-ci.yml'
 
   workflow_dispatch:
@@ -42,6 +44,9 @@ jobs:
       - name: Train Student Placement model
         working-directory: Practical-2
         run: python train_model.py
+
+      - name: Check ML quality gate
+        run: python Practical-3/quality_gate.py
 
       - name: Run automated ML tests
         working-directory: Practical-2
